@@ -6,8 +6,9 @@
   "permissions": ["activeTab", "scripting"],
   "content_scripts": [
     {
-      "matches": ["://chat.openai.com/", "://claude.ai/"],
-      "js": ["content.js"]
+      "matches": ["*://chat.openai.com/*", "*://chatgpt.com/*", "*://claude.ai/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
     }
   ],
   "action": {
