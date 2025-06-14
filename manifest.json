@@ -7,14 +7,19 @@
   "content_scripts": [
     {
       "matches": [
-        "*://chat.openai.com/*",
-        "*://chatgpt.com/*",
-        "*://claude.ai/*"
+        "*://*.openai.com/*",
+        "*://*.chatgpt.com/*",
+        "*://*.claude.ai/*"
       ],
       "js": ["content.js"],
       "run_at": "document_idle",
       "all_frames": true
     }
+  ],
+  "host_permissions": [
+    "*://*.openai.com/*",
+    "*://*.chatgpt.com/*",
+    "*://*.claude.ai/*"
   ],
   "action": {
     "default_popup": "popup.html"
