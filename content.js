@@ -180,6 +180,10 @@ function bindToInput(inputEl) {
   inputEl.addEventListener("input", debounce(() => handleInput(inputEl), DEBOUNCE_DELAY_MS));
 }
 
+// Bind any inputs already present when the script loads (document_idle runs after render)
+document.querySelectorAll(INPUT_SELECTOR).forEach(bindToInput);
+
+// Watch for inputs added later (new chat, page re-render)
 const observer = new MutationObserver(() => {
   document.querySelectorAll(INPUT_SELECTOR).forEach(bindToInput);
 });
