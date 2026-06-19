@@ -1,8 +1,214 @@
 <!DOCTYPE html>
-<html>
-  <head><title>Privashield</title></head>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Privashield</title>
+    <style>
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+
+      body {
+        font-family: system-ui, -apple-system, sans-serif;
+        background: #1e1e2e;
+        color: #cdd6f4;
+        width: 280px;
+        padding: 20px;
+      }
+
+      header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 18px;
+      }
+
+      header h1 {
+        font-size: 18px;
+        font-weight: 700;
+        letter-spacing: 0.3px;
+      }
+
+      .shield-icon {
+        font-size: 22px;
+        line-height: 1;
+      }
+
+      .toggle-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #313244;
+        border-radius: 8px;
+        padding: 12px 14px;
+        margin-bottom: 14px;
+      }
+
+      .toggle-label {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+
+      .toggle-label span:first-child {
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      #ps-status {
+        font-size: 12px;
+        color: #a6e3a1;
+      }
+
+      /* Toggle switch */
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 42px;
+        height: 24px;
+      }
+
+      .switch input { display: none; }
+
+      .slider {
+        position: absolute;
+        inset: 0;
+        background: #45475a;
+        border-radius: 24px;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+
+      .slider::before {
+        content: "";
+        position: absolute;
+        width: 18px;
+        height: 18px;
+        left: 3px;
+        top: 3px;
+        background: #cdd6f4;
+        border-radius: 50%;
+        transition: transform 0.2s;
+      }
+
+      .switch input:checked + .slider { background: #a6e3a1; }
+      .switch input:checked + .slider::before { transform: translateX(18px); }
+
+      .stats-box {
+        background: #313244;
+        border-radius: 8px;
+        padding: 14px;
+        margin-bottom: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .stat-group {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+
+      .stat-value {
+        font-size: 28px;
+        font-weight: 700;
+        color: #f38ba8;
+        line-height: 1;
+      }
+
+      .stat-label {
+        font-size: 11px;
+        color: #6c7086;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      #ps-reset {
+        background: #45475a;
+        color: #cdd6f4;
+        border: none;
+        border-radius: 6px;
+        padding: 5px 10px;
+        font-size: 11px;
+        cursor: pointer;
+      }
+
+      #ps-reset:hover { background: #585b70; }
+
+      .patterns-section {
+        background: #313244;
+        border-radius: 8px;
+        padding: 12px 14px;
+        margin-bottom: 14px;
+      }
+
+      .patterns-section h2 {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: #6c7086;
+        margin-bottom: 8px;
+      }
+
+      .pattern-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+      }
+
+      .pattern-chip {
+        background: #45475a;
+        color: #cdd6f4;
+        font-size: 11px;
+        padding: 3px 8px;
+        border-radius: 12px;
+      }
+
+      footer {
+        font-size: 11px;
+        color: #45475a;
+        text-align: center;
+      }
+    </style>
+  </head>
   <body>
-    <h3>Privashield is active</h3>
-    <p>Protecting your prompts.</p>
+    <header>
+      <span class="shield-icon" role="img" aria-label="Shield">🔐</span>
+      <h1>Privashield</h1>
+    </header>
+
+    <div class="toggle-row">
+      <div class="toggle-label">
+        <span>Protection</span>
+        <span id="ps-status">Active</span>
+      </div>
+      <label class="switch" aria-label="Toggle protection">
+        <input type="checkbox" id="ps-toggle" checked />
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="stats-box">
+      <div class="stat-group">
+        <span class="stat-value" id="leak-count">0</span>
+        <span class="stat-label">Leaks caught</span>
+      </div>
+      <button id="ps-reset" title="Reset counter">Reset</button>
+    </div>
+
+    <div class="patterns-section">
+      <h2>Detecting</h2>
+      <div class="pattern-list">
+        <span class="pattern-chip">Email</span>
+        <span class="pattern-chip">Phone</span>
+        <span class="pattern-chip">SSN</span>
+        <span class="pattern-chip">Credit card</span>
+        <span class="pattern-chip">API keys</span>
+      </div>
+    </div>
+
+    <footer>All detection happens locally — nothing leaves your browser.</footer>
+
+    <script src="popup.js"></script>
   </body>
 </html>

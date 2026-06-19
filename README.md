@@ -16,7 +16,7 @@
 
 - Prompt leak detection engine (regex-based)
 - Redaction + warning UI modal
-- Support for ChatGPT, Claude (Gemini, Poe coming)
+- Support for ChatGPT, Claude, Gemini, Poe
 - Local-only — no cloud tracking
 - Full open-source privacy policy
 
@@ -50,7 +50,7 @@ See: [`privacy-policy.md`](./privacy-policy.md)
 ### 📩 Contact
 
 For feedback or feature requests:  
-📧 hello@privashield.ai _(temporary: use your business email until domain is live)_
+📧 hello@privashield.ai
 
  privashield-extension
 Browser extension that protects users from leaking sensitive data to AI tools like ChatGPT, Claude, and Gemini.

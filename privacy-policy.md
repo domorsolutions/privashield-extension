@@ -37,14 +37,14 @@ In future versions, Privashield may offer **optional, fully anonymized logging**
 ## 📞 Contact
 
 If you have any questions or concerns about privacy, contact us at:  
-📧 [your-business-email] *(update once domain is live)*
+📧 hello@privashield.ai
 
 ---
 
 ## 👥 Open Source
 
 Privashield is committed to transparency. You can view the source code at:  
-🔗 [https://github.com/YOUR_USERNAME/privashield-extension](https://github.com/YOUR_USERNAME/privashield-extension)
+🔗 [https://github.com/domorsolutions/privashield-extension](https://github.com/domorsolutions/privashield-extension)
 
 ---
 

@@ -1,0 +1,10 @@
+{
+  "name": "privashield-extension",
+  "version": "0.2.0",
+  "description": "Browser extension that protects users from leaking sensitive data to AI tools.",
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/checkForLeaks.test.js"
+  },
+  "devDependencies": {}
+}

@@ -1,27 +1,43 @@
 {
   "name": "Privashield",
-  "version": "0.1",
+  "version": "0.2",
   "manifest_version": 3,
   "description": "Protects users from leaking sensitive data to AI tools.",
-  "permissions": ["activeTab", "scripting"],
+  "permissions": ["activeTab", "scripting", "storage"],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
   "content_scripts": [
     {
       "matches": [
         "*://*.openai.com/*",
         "*://*.chatgpt.com/*",
-        "*://*.claude.ai/*"
+        "*://*.claude.ai/*",
+        "*://gemini.google.com/*",
+        "*://*.poe.com/*"
       ],
       "js": ["content.js"],
-      "run_at": "document_idle",
-      "all_frames": true
+      "run_at": "document_idle"
     }
   ],
   "host_permissions": [
     "*://*.openai.com/*",
     "*://*.chatgpt.com/*",
-    "*://*.claude.ai/*"
-  ],
-  "action": {
-    "default_popup": "popup.html"
-  }
+    "*://*.claude.ai/*",
+    "*://gemini.google.com/*",
+    "*://*.poe.com/*"
+  ]
 }
