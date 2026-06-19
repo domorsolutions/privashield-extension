@@ -59,9 +59,7 @@ function showWarningBanner(leaks, inputEl) {
 
   const banner = document.createElement("div");
   banner.id = "privashield-banner";
-
-  const inner = document.createElement("div");
-  Object.assign(inner.style, {
+  Object.assign(banner.style, {
     position: "fixed",
     bottom: "88px",
     left: "50%",
@@ -91,8 +89,9 @@ function showWarningBanner(leaks, inputEl) {
   const btnRow = document.createElement("div");
   Object.assign(btnRow.style, { display: "flex", gap: "8px", marginTop: "10px" });
 
-  function makeBtn(label, bg, color, onClick) {
+  function makeBtn(id, label, bg, color, onClick) {
     const btn = document.createElement("button");
+    btn.id = id;
     btn.textContent = label;
     Object.assign(btn.style, {
       flex: "1",
@@ -109,24 +108,23 @@ function showWarningBanner(leaks, inputEl) {
     return btn;
   }
 
-  btnRow.appendChild(makeBtn("Redact & Continue", "#a6e3a1", "#1e1e2e", () => {
+  btnRow.appendChild(makeBtn("ps-redact", "Redact & Continue", "#a6e3a1", "#1e1e2e", () => {
     applyRedaction(inputEl);
     banner.remove();
     activeBanner = null;
   }));
-  btnRow.appendChild(makeBtn("Send Anyway", "#585b70", "#cdd6f4", () => {
+  btnRow.appendChild(makeBtn("ps-ignore", "Send Anyway", "#585b70", "#cdd6f4", () => {
     banner.remove();
     activeBanner = null;
   }));
-  btnRow.appendChild(makeBtn("Cancel", "#313244", "#cdd6f4", () => {
+  btnRow.appendChild(makeBtn("ps-cancel", "Cancel", "#313244", "#cdd6f4", () => {
     banner.remove();
     activeBanner = null;
   }));
 
-  inner.appendChild(title);
-  inner.appendChild(msg);
-  inner.appendChild(btnRow);
-  banner.appendChild(inner);
+  banner.appendChild(title);
+  banner.appendChild(msg);
+  banner.appendChild(btnRow);
   document.body.appendChild(banner);
   activeBanner = banner;
 }
