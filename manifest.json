@@ -29,7 +29,7 @@
         "*://gemini.google.com/*",
         "*://*.poe.com/*"
       ],
-      "js": ["content.js"],
+      "js": ["src/detection/layer1-regex.js", "content.js"],
       "run_at": "document_idle"
     }
   ],

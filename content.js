@@ -1,15 +1,8 @@
 // content.js — Privashield Leak Detector
+// Pattern detection is provided by src/detection/layer1-regex.js (loaded first in manifest)
 
 const INPUT_SELECTOR = 'textarea, div[contenteditable="true"]';
 const DEBOUNCE_DELAY_MS = 300;
-
-const leakPatterns = {
-  email:      { regex: /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z]{2,}\b/gi,        severity: "high" },
-  phone:      { regex: /\b(?:\+?1[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}\b/g, severity: "high" },
-  ssn:        { regex: /\b\d{3}-\d{2}-\d{4}\b/g,                                     severity: "high" },
-  creditCard: { regex: /\b(?:\d{4}[-\s]?){3}\d{4}\b/g,                               severity: "high" },
-  apiKey:     { regex: /\b(?:sk-|ghp_|xox[baprs]-)[A-Za-z0-9]{20,}\b/g,             severity: "high" },
-};
 
 function debounce(fn, delay) {
   let timer;
@@ -23,27 +16,13 @@ function getInputText(el) {
   return el.innerText || el.value || "";
 }
 
-function checkForLeaks(text) {
-  const found = [];
-  for (const [type, { regex }] of Object.entries(leakPatterns)) {
-    regex.lastIndex = 0;
-    if (regex.test(text)) found.push(type);
+function applyRedaction(inputEl, hits) {
+  let redacted = getInputText(inputEl);
+  for (const hit of hits) {
+    for (const match of hit.matches) {
+      redacted = redacted.split(match).join("[REDACTED]");
+    }
   }
-  return found;
-}
-
-function redactText(text) {
-  let redacted = text;
-  for (const { regex } of Object.values(leakPatterns)) {
-    regex.lastIndex = 0;
-    redacted = redacted.replace(regex, "[REDACTED]");
-  }
-  return redacted;
-}
-
-function applyRedaction(inputEl) {
-  const text = getInputText(inputEl);
-  const redacted = redactText(text);
   if (inputEl.tagName === "TEXTAREA") {
     inputEl.value = redacted;
   } else {
@@ -84,7 +63,7 @@ function showWarningBanner(leaks, inputEl) {
 
   const msg = document.createElement("p");
   msg.style.margin = "8px 0";
-  msg.innerHTML = `Possible <strong>${leaks.join(", ")}</strong> detected in your prompt.`;
+  msg.innerHTML = `Possible <strong>${leaks.map(h => h.label).join(", ")}</strong> detected in your prompt.`;
 
   const btnRow = document.createElement("div");
   Object.assign(btnRow.style, { display: "flex", gap: "8px", marginTop: "10px" });
@@ -109,7 +88,7 @@ function showWarningBanner(leaks, inputEl) {
   }
 
   btnRow.appendChild(makeBtn("ps-redact", "Redact & Continue", "#a6e3a1", "#1e1e2e", () => {
-    applyRedaction(inputEl);
+    applyRedaction(inputEl, leaks);
     banner.remove();
     activeBanner = null;
   }));
@@ -159,13 +138,13 @@ async function handleInput(inputEl) {
   if (!text.trim()) return;
 
   try {
-    const leaks = checkForLeaks(text);
+    const leaks = runRegexDetection(text);
     if (leaks.length > 0) {
       incrementLeakCount();
       showWarningBanner(leaks, inputEl);
     }
   } catch (err) {
-    // leak check failed — fail silently to avoid disrupting the user
+    // detection failed — fail silently to avoid disrupting the user
   }
 }
 
