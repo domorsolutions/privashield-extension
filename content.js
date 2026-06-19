@@ -176,6 +176,8 @@ function bindToInput(inputEl) {
   if (boundInputs.has(inputEl)) return;
   boundInputs.add(inputEl);
   inputEl.addEventListener("input", debounce(() => handleInput(inputEl), DEBOUNCE_DELAY_MS));
+  // paste fires before the DOM updates, so defer one tick
+  inputEl.addEventListener("paste", () => setTimeout(() => handleInput(inputEl), 0));
 }
 
 // Bind any inputs already present when the script loads (document_idle runs after render)
